@@ -1,26 +1,40 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Classes;
+using JuneIntake.ConsoleApp;
 
-//string message_key = Console.ReadKey().KeyChar.ToString();
-//Console.WriteLine("hello " + message_key);
+var account = new BankAccount("than thar", 1000);
+Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} balance.");
 
-int num;
-decimal dec_num;
-string str;
-DateTime dt;
+var account2 = new BankAccount("han thar", 1000);
+Console.WriteLine($"Account {account2.Number} was created for {account2.Owner} with {account2.Balance} balance.");
 
+account.MakeWithdrawal(200, DateTime.Now, "Rent Payment");
+Console.WriteLine($"Current Balance in Accound no. {account.Number} is {account.Balance}");
 
-string message = Console.ReadLine();
-Console.WriteLine("You entered: " + message);
+account.MakeDeposit(400, DateTime.Now, "Job Savings");
+Console.WriteLine($"Current Balance in Accound no. {account.Number} is {account.Balance}");
 
-Console.WriteLine("Enter your number: ");
-string input = Console.ReadLine();
-int result = Convert.ToInt32(input);
-Console.WriteLine("Converted Int Type" + result);
+Console.WriteLine(account.GetAccountHistory());
 
+// testing that initial balances must be positive
+try
+{
+    var invalidAccount = new BankAccount("test account", -5000);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Exception caught creating account with negative balance");
+    Console.WriteLine(ex.Message);
+    Console.WriteLine(ex.ToString());
+}
 
-Console.WriteLine("Using writeline, Enter age: ");
-Console.ReadLine();
-Console.Write("Using write, Enter age: ");
-Console.ReadLine();
-
+Console.WriteLine("====================================================");
+try
+{
+    account.MakeWithdrawal(4000, DateTime.Now, "OverDraw from Than Thar Account");
+}
+catch(Exception ex)
+{
+    Console.WriteLine("Exception caught trying to overdraw");
+    Console.WriteLine(ex.Message);
+    Console.WriteLine(ex.ToString());
+}

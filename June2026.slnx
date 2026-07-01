@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="JuneIntake.ConsoleApp/JuneIntake.ConsoleApp.csproj" />
+  <Project Path="JuneIntake.ConsoleApp1/JuneIntake.ConsoleApp1.csproj" Id="a7876668-fea8-49e7-8c08-c52592bd0e34" />
 </Solution>
