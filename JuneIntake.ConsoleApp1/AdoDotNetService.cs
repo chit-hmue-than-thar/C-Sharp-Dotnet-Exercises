@@ -3,8 +3,242 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+
+// Note :ADO.net CRUD Code Changes For Object Initialization Simplified
+
+namespace JuneIntake.ConsoleApp1
+{
+    internal class AdoDotNetService
+    {
+        //SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
+        private readonly SqlConnectionStringBuilder sb;
+        public AdoDotNetService()
+        {
+            sb = new SqlConnectionStringBuilder
+            {
+                DataSource = "DESKTOP-TJF0H2P", // "." // "(local)
+                InitialCatalog = "OrderManagementSystem", //database name
+                UserID = "sa",
+                Password = "sasa@123",
+                TrustServerCertificate = true
+            };
+        }
+        
+        public void Read()
+        {
+            Console.WriteLine($"Connection String : {sb.ConnectionString}");
+
+            SqlConnection connection = new SqlConnection(sb.ConnectionString);
+            Console.WriteLine("Connection opening ...");
+            connection.Open();
+            Console.WriteLine("Connection Opened ...");
+
+            string query = @"SELECT 
+                           [CustomerID]
+                          ,[FirstName]
+                          ,[LastName]
+                          ,[Address]
+                          ,[ZipCode]
+                          ,[Gender]
+                          ,[BirthDate]
+                          ,[Email]
+                          ,[MobileNo]
+                      FROM [dbo].[Tbl_Customer]
+                ";
+
+            // test queries
+
+            //SELECT
+            //[BrandID]
+            //                ,[BrandName]
+            //FROM[dbo].[Tbl_Brand]
+
+            //                  SELECT[OrderID]
+            //                  ,[OrderDate]
+            //                  ,[CustomerID]
+            //                  ,[SalemanID]
+            //                  ,[TotalAmt]
+            //                  ,[OrderRemark]
+            //                  ,[Status]
+            //FROM[dbo].[Tbl_Order]
+
+            //                SELECT[DetailID]
+            //                  ,[OrderID]
+            //                  ,[ProductID]
+            //                  ,[Qty]
+            //                  ,[Price]
+            //                  ,[Discount]
+            //                  ,[NetPrice]
+            //                  ,[Amt]
+            //FROM[dbo].[Tbl_OrderDetail]
+
+            //                    SELECT[ProductID]
+            //                  ,[ProductName]
+            //                  ,[Price]
+            //                  ,[Description]
+            //                  ,[Unit]
+            //                  ,[BrandID]
+            //FROM[dbo].[Tbl_Product2]
+
+            //                SELECT[SalemanID]
+            //                  ,[SalemanName]
+            //FROM[dbo].[Tbl_Saleman]
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            //DataSet ds = new DataSet();
+            //adapter.Fill(ds);
+
+            Console.WriteLine("Connection closing ...");
+            connection.Close();
+            Console.WriteLine("Connection closed ...");
+         
+            List<Customer> lst = new List<Customer>();
+            foreach (DataRow item in dt.Rows) {
+                Customer student = new Customer
+                {
+                    CustomerID = Convert.ToInt32(item["CustomerID"]),
+                    FirstName = Convert.ToString(item["FirstName"]),
+                    LastName = Convert.ToString(item["LastName"]),
+                    Address = Convert.ToString(item["Address"]),
+                    ZipCode = Convert.ToString(item["ZipCode"]),
+                    Gender = Convert.ToChar(item["Gender"]),
+                    BirthDate = Convert.ToDateTime(item["BirthDate"]),
+                    Email = Convert.ToString(item["Email"]),
+                    MobileNo = Convert.ToString(item["MobileNo"])
+
+                };
+                lst.Add(student);
+            }
+
+            Console.WriteLine(lst);
+        }
+
+        
+
+            // DataSet
+            // DataTable
+            // DataRow
+            // DataColumn
+
+            // to avoid date format conflicts, user year-month-date (yyyy-MMM-dd)
+            // 12-11-2025 (month-date-year / date-month-year)
+            // 2025-11-12 (year-month-date)
+
+            //foreach (DataRow item in dt.Rows)
+            //{
+            //    Console.WriteLine(item["CustomerID"]);
+            //    Console.WriteLine(item["FirstName"]);
+            //    Console.WriteLine(item["LastName"]);
+            //    Console.WriteLine(item["Address"]);
+            //    Console.WriteLine(item["ZipCode"]);
+            //    //Console.WriteLine(item["BirthDate"]);
+            //    DateTime dtDob = Convert.ToDateTime(item["BirthDate"]);
+            //    Console.WriteLine(dtDob.ToString("dd-MMM-yyyy"));
+            //}
+
+            
+        
+
+        public void Create()
+        {
+
+            Console.WriteLine($"Connection String : {sb.ConnectionString}");
+            SqlConnection connection = new SqlConnection(sb.ConnectionString);
+            connection.Open();
+
+            string query = @"
+                           CREATE TABLE [dbo].[Delivery_Gates] (
+                            [GateID]       INT IDENTITY(1,1) PRIMARY KEY,
+                            [GateName]     NVARCHAR(100) NOT NULL,
+                            [Location]     NVARCHAR(200),
+                            [GateStatus]   NVARCHAR(50) DEFAULT 'Active', -- e.g., Active, Under Maintenance, Closed
+                            [LastUpdated]  DATETIME DEFAULT GETDATE()
+                        );";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            int result = cmd.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
+
+        public void Update()
+        {
+            Console.WriteLine($"Connection String : {sb.ConnectionString}");
+
+            SqlConnection connection = new SqlConnection(sb.ConnectionString);
+            connection.Open();
+
+            string query = @"
+                UPDATE [dbo].[Tbl_Product2] 
+                SET [ProductName] = 'Logitech MX Master 3S', [Price] = 99.99 
+                WHERE [ProductID] = 10;
+
+                UPDATE [dbo].[Tbl_Product2] 
+                SET [ProductName] = 'Keychron K2 Mechanical Keyboard', [Price] = 89.00 
+                WHERE [ProductID] = 11;
+
+                UPDATE [dbo].[Tbl_Product2] 
+                SET [ProductName] = 'Anker Powerline III USB-C Cable', [Price] = 15.99 
+                WHERE [ProductID] = 12;
+
+                UPDATE [dbo].[Tbl_Product2] 
+                SET [ProductName] = 'Dell UltraSharp 27"""" 4K Monitor', [Price] = 450.00 
+                WHERE [ProductID] = 13;
+
+                UPDATE [dbo].[Tbl_Product2] 
+                SET [ProductName] = 'Sony WH-1000XM5 Headphones', [Price] = 349.99 
+                WHERE [ProductID] = 14;"";";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            int result = cmd.ExecuteNonQuery();
+            connection.Close();
+
+        }
+
+        public void Delete()
+        {
+            Console.WriteLine($"Connection String : {sb.ConnectionString}");
+
+            SqlConnection connection = new SqlConnection(sb.ConnectionString);
+            connection.Open();
+
+            string query = @"DELETE FROM [dbo].[Tbl_Customer]
+            WHERE [Email] = 'ei.phyu@example.com';";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            int result = cmd.ExecuteNonQuery();
+            connection.Close();
+
+        }
+    }
+}
+
+public class Customer
+{
+
+    // must be same as datatypes in DB , otherwise Dapper causes error
+    public int CustomerID { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Address { get; set; }
+    public string ZipCode { get; set; }
+    public char Gender { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string Email { get; set; }
+    public string MobileNo { get; set; }
+
+}
+
+
 
 //namespace JuneIntake.ConsoleApp1
 //{
@@ -38,8 +272,8 @@ using System.Threading.Tasks;
 //                          ,[MobileNo]
 //                      FROM [dbo].[Tbl_Customer]";
 
-            
-            
+
+
 //          SqlCommand cmd = new SqlCommand(query, connection);
 //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 //            DataTable dt = new DataTable();
@@ -157,198 +391,4 @@ using System.Threading.Tasks;
 //        }
 //    }
 //}
-
-
-
-
-
-
-
-// Note :ADO.net CRUD Code Changes For Object Initialization Simplified
-
-namespace JuneIntake.ConsoleApp1
-{
-    internal class AdoDotNetService
-    {
-        //SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
-        private readonly SqlConnectionStringBuilder sb;
-        public AdoDotNetService()
-        {
-            sb = new SqlConnectionStringBuilder
-            {
-                DataSource = "DESKTOP-TJF0H2P", // "." // "(local)
-                InitialCatalog = "OrderManagementSystem", //database name
-                UserID = "sa",
-                Password = "sasa@123",
-                TrustServerCertificate = true
-            };
-        }
-        
-        public void Read()
-        {
-            Console.WriteLine($"Connection String : {sb.ConnectionString}");
-
-            SqlConnection connection = new SqlConnection(sb.ConnectionString);
-            Console.WriteLine("Connection opening ...");
-            connection.Open();
-            Console.WriteLine("Connection Opened ...");
-
-            string query = @"SELECT 
-                           [CustomerID]
-                          ,[FirstName]
-                          ,[LastName]
-                          ,[Address]
-                          ,[ZipCode]
-                          ,[Gender]
-                          ,[BirthDate]
-                          ,[Email]
-                          ,[MobileNo]
-                      FROM [dbo].[Tbl_Customer]
-
-                            SELECT 
-                            [BrandID]
-                            ,[BrandName]
-                       FROM [dbo].[Tbl_Brand]
-
-                              SELECT [OrderID]
-                              ,[OrderDate]
-                              ,[CustomerID]
-                              ,[SalemanID]
-                              ,[TotalAmt]
-                              ,[OrderRemark]
-                              ,[Status]
-                      FROM [dbo].[Tbl_Order]
-
-                            SELECT [DetailID]
-                              ,[OrderID]
-                              ,[ProductID]
-                              ,[Qty]
-                              ,[Price]
-                              ,[Discount]
-                              ,[NetPrice]
-                              ,[Amt]
-                      FROM [dbo].[Tbl_OrderDetail]
-
-                                SELECT [ProductID]
-                              ,[ProductName]
-                              ,[Price]
-                              ,[Description]
-                              ,[Unit]
-                              ,[BrandID]
-                          FROM [dbo].[Tbl_Product2]
-
-                            SELECT [SalemanID]
-                              ,[SalemanName]
-                          FROM [dbo].[Tbl_Saleman]";
-
-
-
-            SqlCommand cmd = new SqlCommand(query, connection);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            //DataTable dt = new DataTable();
-            //adapter.Fill(dt);
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
-
-            Console.WriteLine("Connection closing ...");
-            connection.Close();
-            Console.WriteLine("Connection closed ...");
-
-            // DataSet
-            // DataTable
-            // DataRow
-            // DataColumn
-
-            // to avoid date format conflicts, user year-month-date (yyyy-MMM-dd)
-            // 12-11-2025 (month-date-year / date-month-year)
-            // 2025-11-12 (year-month-date)
-
-            //foreach (DataRow item in dt.Rows)
-            //{
-            //    Console.WriteLine(item["CustomerID"]);
-            //    Console.WriteLine(item["FirstName"]);
-            //    Console.WriteLine(item["LastName"]);
-            //    Console.WriteLine(item["Address"]);
-            //    Console.WriteLine(item["ZipCode"]);
-            //    //Console.WriteLine(item["BirthDate"]);
-            //    DateTime dtDob = Convert.ToDateTime(item["BirthDate"]);
-            //    Console.WriteLine(dtDob.ToString("dd-MMM-yyyy"));
-            //}
-        }
-
-        public void Create()
-        {
-
-            Console.WriteLine($"Connection String : {sb.ConnectionString}");
-
-            SqlConnection connection = new SqlConnection(sb.ConnectionString);
-            connection.Open();
-
-            string query = @"
-                           CREATE TABLE [dbo].[Delivery_Gates] (
-                            [GateID]       INT IDENTITY(1,1) PRIMARY KEY,
-                            [GateName]     NVARCHAR(100) NOT NULL,
-                            [Location]     NVARCHAR(200),
-                            [GateStatus]   NVARCHAR(50) DEFAULT 'Active', -- e.g., Active, Under Maintenance, Closed
-                            [LastUpdated]  DATETIME DEFAULT GETDATE()
-                        );";
-
-            SqlCommand cmd = new SqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-
-            connection.Close();
-
-        }
-
-        public void Update()
-        {
-            Console.WriteLine($"Connection String : {sb.ConnectionString}");
-
-            SqlConnection connection = new SqlConnection(sb.ConnectionString);
-            connection.Open();
-
-            string query = @"
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Logitech MX Master 3S', [Price] = 99.99 
-                WHERE [ProductID] = 10;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Keychron K2 Mechanical Keyboard', [Price] = 89.00 
-                WHERE [ProductID] = 11;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Anker Powerline III USB-C Cable', [Price] = 15.99 
-                WHERE [ProductID] = 12;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Dell UltraSharp 27"""" 4K Monitor', [Price] = 450.00 
-                WHERE [ProductID] = 13;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Sony WH-1000XM5 Headphones', [Price] = 349.99 
-                WHERE [ProductID] = 14;"";";
-
-            SqlCommand cmd = new SqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-            connection.Close();
-
-        }
-
-        public void Delete()
-        {
-            Console.WriteLine($"Connection String : {sb.ConnectionString}");
-
-            SqlConnection connection = new SqlConnection(sb.ConnectionString);
-            connection.Open();
-
-            string query = @"DELETE FROM [dbo].[Tbl_Customer]
-            WHERE [Email] = 'ei.phyu@example.com';";
-
-            SqlCommand cmd = new SqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-            connection.Close();
-
-        }
-    }
-}
 
