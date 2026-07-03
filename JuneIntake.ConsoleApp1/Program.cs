@@ -2,7 +2,8 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-AdoDotNetService service =  new AdoDotNetService();
-//service.Read();
+AdoDotNetService service = new AdoDotNetService();
+service.Read();
 //service.Create();
-service.Delete();
+//service.Update();
+//service.Delete();
