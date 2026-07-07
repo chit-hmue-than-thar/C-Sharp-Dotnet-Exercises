@@ -33,19 +33,30 @@ namespace JuneIntake.ConsoleApp2
 
                 foreach (var item in lst)
                 {
-                    Console.WriteLine($"Id: {item.CustomerID}, Name: {item.FirstName} {item.FirstName}, Email: {item.Email} ");
+                    Console.WriteLine($"Id: {item.CustomerID}, Name: {item.FirstName} {item.LastName}, Email: {item.Email} ");
                 }
             }
         }
-        public void Create() { }
+        public void Create() 
+        {
+            using (IDbConnection db = new SqlConnection(sb.ConnectionString))
+            {
+                db.Open();
+                int res = db.Execute("INSERT INTO [dbo].[Tbl_Customer] ( [FirstName], [LastName], [Address], [ZipCode], [Gender], [BirthDate], [Email], [MobileNo]) " +
+           "VALUES ( 'Kyaw', 'Soe', '15th Street, Yangon', '11101', 'M', '1995-03-10', 'kyaw.soe@example.com', '09250000000');");
+
+                Console.WriteLine($"Rows Created: {res}");
+            }
+            
+        }
         public void Update()
         {
             using(IDbConnection db = new SqlConnection(sb.ConnectionString))
             {
                 db.Open();
 
-                int res = db.Execute("DELETE FROM [dbo].[Tbl_Customer] WHERE [FirstName] = 'Thiri';");
-                Console.WriteLine($"Rows Deleted: {res}");
+                int res = db.Execute("UPDATE [dbo].[Tbl_Customer]\r\nSET [Email] = 'updated.email@example.com'\r\nWHERE [CustomerID] = 2;");
+                Console.WriteLine($"Rows Updated: {res}");
 
             }
         }
@@ -55,7 +66,7 @@ namespace JuneIntake.ConsoleApp2
             {
                 db.Open();
 
-                int res = db.Execute("DELETE FROM [dbo].[Tbl_Customer] WHERE [FirstName] = 'Thiri';");
+                int res = db.Execute("DELETE FROM [dbo].[Tbl_Customer] WHERE [CustomerID] = 14;");
                 Console.WriteLine($"Rows Deleted: {res}");
                 
             }

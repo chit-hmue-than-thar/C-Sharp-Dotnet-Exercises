@@ -7,7 +7,9 @@ using System.Reflection;
 
 DapperCrudService service = new DapperCrudService();
 service.Read();
-//service.Delete();
+//service.Create();
+service.Delete();
+//service.Update();
 
 //dynamic stu = new { Id = 1, Name = "Mg Mg " };
 //stu.Id = 2; // Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: 'Property or indexer '<>f__AnonymousType0<int,string>.Id' cannot be assigned to -- it is read only'
