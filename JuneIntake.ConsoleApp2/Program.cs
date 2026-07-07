@@ -8,7 +8,7 @@ using System.Reflection;
 DapperCrudService service = new DapperCrudService();
 service.Read();
 //service.Create();
-service.Delete();
+//service.Delete();
 //service.Update();
 
 //dynamic stu = new { Id = 1, Name = "Mg Mg " };
@@ -17,7 +17,7 @@ service.Delete();
 //stu.Study();  // ''<>f__AnonymousType0<int,string>' does not contain a definition for 'Study''
 
 
-public class Customer
+public class CustomerDto // this naming prevents folder name and class name duplicate
 {
 
     // must be same as datatypes in DB , otherwise Dapper causes error

@@ -29,7 +29,7 @@ namespace JuneIntake.ConsoleApp2
             using (IDbConnection db = new SqlConnection(sb.ConnectionString))
             {
                 db.Open();
-                List<Customer> lst = db.Query<Customer>("SELECT * FROM [dbo].[Tbl_Customer]").ToList(); // Click Ctrl+'.' on lst to change from Dynamic List to 
+                List<CustomerDto> lst = db.Query<CustomerDto>("SELECT * FROM [dbo].[Tbl_Customer]").ToList(); // Click Ctrl+'.' on lst to change from Dynamic List to 
 
                 foreach (var item in lst)
                 {
