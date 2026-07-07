@@ -10,6 +10,9 @@ This project demonstrates how SQL injection vulnerabilities occur when using str
 
 ![SQL Injection Demonstration - After injection,Database Data Deleted ](./JuneIntake.SQLInjection/images/database_data_del_preview.png)
 
+![Prevent SQL Injection](./JuneIntake.SQLInjection/images/prevent_sql_injection.png)
+
+
 ### Vulnerability Explained
 As shown in the screenshot, the application is susceptible to SQL injection because it concatenates user input directly into the query string:
 
