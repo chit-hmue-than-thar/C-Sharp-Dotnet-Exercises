@@ -2,4 +2,5 @@
   <Project Path="JuneIntake.ConsoleApp/JuneIntake.ConsoleApp.csproj" />
   <Project Path="JuneIntake.ConsoleApp1/JuneIntake.ConsoleApp1.csproj" Id="a7876668-fea8-49e7-8c08-c52592bd0e34" />
   <Project Path="JuneIntake.ConsoleApp2/JuneIntake.ConsoleApp2.csproj" Id="e3578634-8b91-4fdb-a71c-52caeea66c86" />
+  <Project Path="JuneIntake.SQLInjection/JuneIntake.SQLInjection.csproj" Id="51bb6144-5816-43df-80dd-2e4cf0e490f4" />
 </Solution>

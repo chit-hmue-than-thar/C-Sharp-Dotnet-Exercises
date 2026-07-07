@@ -16,7 +16,9 @@ service.Read();
 //stu.jdsfhdnasl = 2;  //Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: '' <> f__AnonymousType0<int, string>' does not contain a definition for 'jdsfhdnasl''
 //stu.Study();  // ''<>f__AnonymousType0<int,string>' does not contain a definition for 'Study''
 
-
+// dto
+// entity
+// model
 public class CustomerDto // this naming prevents folder name and class name duplicate
 {
 
