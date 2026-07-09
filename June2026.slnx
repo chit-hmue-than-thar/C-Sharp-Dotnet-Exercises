@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="DatabaseFirst.ClassLibrary/DatabaseFirst.ClassLibrary.csproj" Id="617e3774-52cc-401e-a85b-598a048e7676" />
+  <Project Path="June2026.EntityFrameworkCore/June2026.EntityFrameworkCore.csproj" Id="cf94f898-7ec5-4d8b-9d76-f0844eae9dc5" />
   <Project Path="JuneIntake.ConsoleApp/JuneIntake.ConsoleApp.csproj" />
   <Project Path="JuneIntake.ConsoleApp1/JuneIntake.ConsoleApp1.csproj" Id="a7876668-fea8-49e7-8c08-c52592bd0e34" />
   <Project Path="JuneIntake.ConsoleApp2/JuneIntake.ConsoleApp2.csproj" Id="e3578634-8b91-4fdb-a71c-52caeea66c86" />
