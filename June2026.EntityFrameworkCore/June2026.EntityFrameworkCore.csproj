@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseFirst.ClassLibrary\DatabaseFirst.ClassLibrary.csproj" />
+    <ProjectReference Include="..\JuneIntake.DatabaseScaffoldTest\JuneIntake.DatabaseScaffoldTest.csproj" />
   </ItemGroup>
 
 </Project>

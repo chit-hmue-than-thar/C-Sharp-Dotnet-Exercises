@@ -1,0 +1,6 @@
+Task :
+1. First step : ပထမဆုံး Table တစ်လုံး ဆောက်ပြီး Console မှာ Scaffold ဆွဲ ပြီး CRUD ထဲက Read Only ရေး
+2. Second step : ဒုတိယ Table တစ်လုံး ဆောက် Scaffold ဆွဲ ပြီး Read Only ရေး
+3. Thirst Step : ဒုတိယ Table ကိုဖျက်ပြီး တတိယ Table ဆောက် ပါ။ Scaffold ဆွဲပြ Read Only ရေး
+
+Question => နောက်ဆုံး Test အပြီးမှာ Scaffold အလုပ်လုပ်သေးလား ဖြေပေးကြပါ
