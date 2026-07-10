@@ -5,6 +5,8 @@ using DatabaseFirst.ClassLibrary.AppDbContextModels;
 using June2026.EntityFrameworkCore;
 using JuneIntake.DatabaseScaffoldTest.TestAppDbContextModels;
 
+
+// EFCore - Model First 
 June2026AppDbContext2 db = new June2026AppDbContext2();
 
 // LINQ
@@ -64,6 +66,8 @@ db.SaveChanges();
 //List<TblSaleman> salemanList = db2.TblSalemen.ToList();
 //List<TblUser2> userList = db2.TblUser2s.ToList();
 
+
+Console.WriteLine("=================================================");
 
 // using JuneIntake.DatabaseScaffoldTest database layer
 AppDbContext2 TestDb = new AppDbContext2();
