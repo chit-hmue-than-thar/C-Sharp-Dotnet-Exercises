@@ -6,9 +6,9 @@ using System.Net;
 using System.Reflection;
 
 DapperCrudService service = new DapperCrudService();
-service.Read();
+//service.Read();
 //service.Create();
-//service.Delete();
+service.Delete();
 //service.Update();
 
 //dynamic stu = new { Id = 1, Name = "Mg Mg " };

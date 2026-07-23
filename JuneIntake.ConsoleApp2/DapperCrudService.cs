@@ -17,7 +17,7 @@ namespace JuneIntake.ConsoleApp2
         {
              sb = new SqlConnectionStringBuilder
             {
-                DataSource = "DESKTOP-TJF0H2P", // "." // "(local)
+                DataSource = "DESKTOP-K38OUQ8", // "." // "(local)
                 InitialCatalog = "OrderManagementSystem", //database name
                 UserID = "sa",
                 Password = "sasa@123",
@@ -43,7 +43,7 @@ namespace JuneIntake.ConsoleApp2
             {
                 db.Open();
                 int res = db.Execute("INSERT INTO [dbo].[Tbl_Customer] ( [FirstName], [LastName], [Address], [ZipCode], [Gender], [BirthDate], [Email], [MobileNo]) " +
-           "VALUES ( 'Kyaw', 'Soe', '15th Street, Yangon', '11101', 'M', '1995-03-10', 'kyaw.soe@example.com', '09250000000');");
+           "VALUES ( 'Thar', 'Thar', '117, 57C Mandalay', '22109', 'F', '2003-01-09', 'than.thar@gmail.com', '097820278890');");
 
                 Console.WriteLine($"Rows Created: {res}");
             }
@@ -66,7 +66,7 @@ namespace JuneIntake.ConsoleApp2
             {
                 db.Open();
 
-                int res = db.Execute("DELETE FROM [dbo].[Tbl_Customer] WHERE [CustomerID] = 14;");
+                int res = db.Execute("DELETE FROM [dbo].[Tbl_Customer] WHERE [Address] = '117, 57C Mandalay';");
                 Console.WriteLine($"Rows Deleted: {res}");
                 
             }

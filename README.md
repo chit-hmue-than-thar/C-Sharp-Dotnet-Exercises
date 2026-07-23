@@ -12,9 +12,11 @@ This project demonstrates how SQL injection vulnerabilities occur when using str
 
 ![Prevent SQL Injection](./JuneIntake.SQLInjection/images/prevent_sql_injection.png)
 
+![SQL Injection Demo - After Update Admin Password in the database ](./JuneIntake.SQLInjection/images/update_mssql_admin_password.png)
+
 
 ### Vulnerability Explained
 As shown in the screenshot, the application is susceptible to SQL injection because it concatenates user input directly into the query string:
 
 ```csharp
-var users = db.Query($"select * from Tbl_User where UserName = '{username}'");
+var users = db.Query($"select * from Tbl_User2 where UserName = '{username}' and Password = '{password}'");

@@ -21,7 +21,7 @@ namespace JuneIntake.ConsoleApp1
         {
             sb = new SqlConnectionStringBuilder
             {
-                DataSource = "DESKTOP-TJF0H2P", // "." // "(local)
+                DataSource = "DESKTOP-K38OUQ8", // "." // "(local)
                 InitialCatalog = "OrderManagementSystem", //database name
                 UserID = "sa",
                 Password = "sasa@123",
@@ -49,6 +49,50 @@ namespace JuneIntake.ConsoleApp1
                           ,[Email]
                           ,[MobileNo]
                       FROM [dbo].[Tbl_Customer]
+
+                            SELECT
+            [BrandID]
+                            ,[BrandName]
+            FROM[dbo].[Tbl_Brand]
+
+                              SELECT[OrderID]
+                              ,[OrderDate]
+                              ,[CustomerID]
+                              ,[SalemanID]
+                              ,[TotalAmt]
+                              ,[OrderRemark]
+                              ,[Status]
+            FROM[dbo].[Tbl_Order]
+
+                            SELECT[DetailID]
+                              ,[OrderID]
+                              ,[ProductID]
+                              ,[Qty]
+                              ,[Price]
+                              ,[Discount]
+                              ,[NetPrice]
+                              ,[Amt]
+            FROM[dbo].[Tbl_OrderDetail]
+
+                                SELECT[ProductID]
+                              ,[ProductName]
+                              ,[Price]
+                              ,[Description]
+                              ,[Unit]
+                              ,[BrandID]
+            FROM[dbo].[Tbl_Product2]
+
+                            SELECT[SalemanID]
+                              ,[SalemanName]
+            FROM[dbo].[Tbl_Saleman]
+
+            SELECT TOP (1000) [GateID]
+              ,[GateName]
+              ,[Location]
+              ,[GateStatus]
+              ,[LastUpdated]
+          FROM [OrderManagementSystem].[dbo].[Delivery_Gates]
+
                 ";
 
             // test queries
@@ -91,17 +135,17 @@ namespace JuneIntake.ConsoleApp1
 
             SqlCommand cmd = new SqlCommand(query, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            //DataSet ds = new DataSet();
-            //adapter.Fill(ds);
+            //DataTable dt = new DataTable();
+            //adapter.Fill(dt);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
 
             Console.WriteLine("Connection closing ...");
             connection.Close();
             Console.WriteLine("Connection closed ...");
          
             List<Customer> lst = new List<Customer>();
-            foreach (DataRow item in dt.Rows) {
+            foreach (DataRow item in ds.Tables[0].Rows) {
                 Customer student = new Customer
                 {
                     CustomerID = Convert.ToInt32(item["CustomerID"]),
@@ -170,6 +214,24 @@ namespace JuneIntake.ConsoleApp1
 
         }
 
+        public void Insert()
+        {
+            Console.WriteLine($"Connection String : {sb.ConnectionString}");
+            SqlConnection connection = new SqlConnection(sb.ConnectionString);
+            connection.Open();
+
+            string query = @"INSERT INTO [OrderManagementSystem].[dbo].[Delivery_Gates] 
+                            ([GateName], [Location], [GateStatus], [LastUpdated])
+                        VALUES 
+                       
+                            (N'Amarapura Transit Depot', N'Sagaing-Mandalay Road, Amarapura Township, Mandalay', N'Maintenance', GETDATE());";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.ExecuteNonQuery();
+            
+            connection.Close();
+        }
+
         public void Update()
         {
             Console.WriteLine($"Connection String : {sb.ConnectionString}");
@@ -177,26 +239,14 @@ namespace JuneIntake.ConsoleApp1
             SqlConnection connection = new SqlConnection(sb.ConnectionString);
             connection.Open();
 
-            string query = @"
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Logitech MX Master 3S', [Price] = 99.99 
-                WHERE [ProductID] = 10;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Keychron K2 Mechanical Keyboard', [Price] = 89.00 
-                WHERE [ProductID] = 11;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Anker Powerline III USB-C Cable', [Price] = 15.99 
-                WHERE [ProductID] = 12;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Dell UltraSharp 27"""" 4K Monitor', [Price] = 450.00 
-                WHERE [ProductID] = 13;
-
-                UPDATE [dbo].[Tbl_Product2] 
-                SET [ProductName] = 'Sony WH-1000XM5 Headphones', [Price] = 349.99 
-                WHERE [ProductID] = 14;"";";
+            string query = @"UPDATE [OrderManagementSystem].[dbo].[Delivery_Gates]
+                        SET 
+                            [GateName]   = N'Mandalay Central Express Gate',
+                            [Location]   = N'78th Street & 30th Street, Chanayethazan Township, Mandalay',
+                            [GateStatus] = N'Active',
+                            [LastUpdated] = GETDATE()
+                        WHERE 
+                            [GateID] = 1;";
 
             SqlCommand cmd = new SqlCommand(query, connection);
             int result = cmd.ExecuteNonQuery();
@@ -211,8 +261,8 @@ namespace JuneIntake.ConsoleApp1
             SqlConnection connection = new SqlConnection(sb.ConnectionString);
             connection.Open();
 
-            string query = @"DELETE FROM [dbo].[Tbl_Customer]
-            WHERE [Email] = 'ei.phyu@example.com';";
+            string query = @"DELETE FROM [OrderManagementSystem].[dbo].[Delivery_Gates]
+WHERE [GateID] = 1;";
 
             SqlCommand cmd = new SqlCommand(query, connection);
             int result = cmd.ExecuteNonQuery();
